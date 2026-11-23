@@ -37,6 +37,7 @@ export const taskLogs = pgTable(
         .notNull()
         .references(() => tasks.id, { onDelete: 'restrict'}),
         date: date('date', { mode: 'string' }).notNull(),
+        value: integer('value').notNull(),
         proofNote: text('proof_note'),
         loggedAt: timestamp('logged_at', { withTimezone: true}).notNull().defaultNow(),
     },
@@ -57,7 +58,7 @@ export const settings = pgTable(
     {
         id: integer('id').primaryKey().default(1),
         timezone: text('timezone').notNull().default('Asia/Manila'),
-        dayDeadline: time('day_dealine').notNull().default('00:00'),
+        dayDeadline: time('day_deadline').notNull().default('00:00'),
         graceTokensPerWeek: integer('grace_tokens_per_week').notNull().default(1),
     },
     (t) => [check('settings_single_row', sql`${t.id} = 1`)],
